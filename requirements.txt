@@ -7,3 +7,4 @@ beautifulsoup4
 dnspython
 tldextract
 python-whois
+googlesearch_python

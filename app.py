@@ -5,12 +5,13 @@ from feature import FeatureExtraction
 from pymongo import MongoClient
 from datetime import datetime
 import requests, time
+import streamlit as st
 
 # Load model
 model = joblib.load("phishing_model_structured.pkl")
-
+mongo_uri = st.secrets["MONGO_URI"]
 # MongoDB setup
-client = MongoClient("mongodb+srv://phishuser:Phish1234@cluster0.0l0d6pz.mongodb.net/?retryWrites=true&w=majority")
+client = MongoClient(mongo_uri)
 db = client["phishingDB"]
 logs = db["prediction_logs"]
 
@@ -65,7 +66,8 @@ if st.button("Check URL") and url_input:
         input_df = pd.DataFrame([features], columns=feature_names)
         pred = model.predict(input_df)[0]
         model_verdict = "🔴 Phishing" if pred == 1 else "🟢 Legitimate"
-        vt_result = check_with_virustotal(url_input, "3d80d1619eafcd513fe9e2cf00b5072a319da97e1f694482a1401337748d802f")
+        api_key = st.secrets["VT_API_KEY"]
+        vt_result = check_with_virustotal(url_input, api_key)
         final = "🔴 Phishing" if "Malicious" in vt_result or pred == 1 else "🟢 Legitimate"
 
         logs.insert_one({
