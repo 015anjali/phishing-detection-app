@@ -1,6 +1,9 @@
 streamlit
-joblib
 pandas
-scikit-learn
+joblib
 requests
 pymongo
+beautifulsoup4
+dnspython
+tldextract
+python-whois
