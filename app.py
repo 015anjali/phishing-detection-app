@@ -6,6 +6,9 @@ from pymongo import MongoClient
 from datetime import datetime
 import requests, time
 import streamlit as st
+import os
+st.write("Current directory files:", os.listdir())
+
 
 # Load model
 model = joblib.load("phishing_model_structured.pkl")
